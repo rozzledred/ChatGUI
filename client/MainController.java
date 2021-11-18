@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -33,17 +35,27 @@ public class MainController {
 	private void handleLogin(Event event) {
 		String username = usernameField.getText();
 		String password = passwordField.getText();
-		if(username.length() <= 0 || password.length() <= 0) {
-			System.out.println("Too short!");
+		if(username.length() <= 0 || password.length() <= 8) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Username or password is too short!");
+			alert.setContentText("Password minimum is 8 characters, username cannot be empty.");
+			alert.showAndWait();
 			return;
 		}
 		Credentials currentCreds = new Credentials(username, password);
 		if(credentialsList.contains(currentCreds)) {
-			System.out.println("Already contains!");
-			return;
+			Credentials check = credentialsList.get(credentialsList.indexOf(currentCreds));
+			if(!(check.getPassword() == currentCreds.getPassword())) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText("Incorrect password!");
+				alert.setContentText("The password associated with this username is incorrect, please try again.");
+				alert.showAndWait();
+				return;
+			}
 		}
 		else {
-			System.out.println(currentCreds.getUsername() + " " + currentCreds.getPassword());
 			credentialsList.add(currentCreds);
 		}
 		

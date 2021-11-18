@@ -18,19 +18,17 @@ import javafx.collections.ObservableList;
 public class ServerHandler implements Runnable {
 
 	private ServerSocket serverSocket;
-	private final ServerController serverController;
 	private final ObservableList<String> serverLogList;
 	protected Collection<ClientModel> clientList = 
 			Collections.synchronizedCollection(new ArrayList<ClientModel>());
 
 	public ServerHandler(int port, ServerController serverController) {
-		this.serverController = serverController;
 		this.serverLogList = serverController.serverLogList;
 		try {
 			ServerSocket serverSocket = null;
 			serverSocket = new ServerSocket(port);
 			serverSocket.setReuseAddress(true);
-			serverLogList.add("Server started...");
+			serverLogList.add("Server started on port " + port + "...");
 			this.serverSocket = serverSocket;
 		} catch (IOException e) {
 			e.printStackTrace();

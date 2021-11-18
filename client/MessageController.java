@@ -1,5 +1,6 @@
 package client;
 
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 
 import javafx.collections.FXCollections;
@@ -32,6 +33,14 @@ public class MessageController {
 	private void handleSend(Event event) {
 		String message = messageTextField.getText();
 		client.sendMessage(message);
+		messageTextField.clear();
+	}
+	
+	@FXML
+	private void handleSendEnter(KeyEvent keyEvent) {
+		String message = messageTextField.getText();
+		client.sendMessage(message);
+		messageTextField.clear();
 	}
 
 	public void setMainController(ConnectionController connectionController) {
